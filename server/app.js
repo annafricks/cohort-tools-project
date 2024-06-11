@@ -1,7 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
-const cors = require("cors")
+const cors = require("cors");
+const mongoose = require("mongoose");
 const PORT = 5005;
 
 
@@ -23,6 +24,7 @@ app.use(morgan("dev"));
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(mongoose());
 
 
 // ROUTES - https://expressjs.com/en/starter/basic-routing.html
