@@ -11,6 +11,8 @@ const PORT = 5005;
 // ...
 const cohorts= require("./cohorts.json")
 const students= require("./students.json")
+const cohortRouter=require("./routes/cohorts.routes.js")
+const studentRouter=require("./routes/students.routes.js")
 
 // INITIALIZE EXPRESS APP - https://expressjs.com/en/4x/api.html#express
 const app = express();
@@ -24,8 +26,12 @@ app.use(morgan("dev"));
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(mongoose());
 
+
+const MONGODB_URI = "mongodb://127.0.0.1:27017/cohort-tools-api";
+
+mongoose
+  .connect(MONGODB_URI)
 
 // ROUTES - https://expressjs.com/en/starter/basic-routing.html
 // Devs Team - Start working on the routes here:
@@ -38,9 +44,13 @@ app.get("/api/cohorts", (req, res)=>{
   res.json(cohorts)
 })
 
-app.get("/api/students", (req, res)=>{
-  res.json( students );
-});
+// app.get("/api/students", (req, res)=>{
+//   res.json( students);
+// });
+
+app.use("/api/cohorts", cohortRouter)
+
+app.use("/api/students", studentRouter)
 
 
 // START SERVER
