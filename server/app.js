@@ -3,7 +3,9 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const PORT = 5005;
+const PORT = 8080;
+require("dotenv").config();
+
 
 
 // STATIC DATA
@@ -13,6 +15,7 @@ const cohorts= require("./cohorts.json")
 const students= require("./students.json")
 const cohortRouter=require("./routes/cohorts.routes.js")
 const studentRouter=require("./routes/students.routes.js")
+const userRouter=require("./routes/auth.routes.js")
 
 // INITIALIZE EXPRESS APP - https://expressjs.com/en/4x/api.html#express
 const app = express();
@@ -32,17 +35,22 @@ const MONGODB_URI = "mongodb://127.0.0.1:27017/cohort-tools-api";
 
 mongoose
   .connect(MONGODB_URI)
-
+.then (connection => console.log(connection.connections[0].name))
 // ROUTES - https://expressjs.com/en/starter/basic-routing.html
 // Devs Team - Start working on the routes here:
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+    
+    ],
+  })
+);
 
 app.get("/docs", (req, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
 
-app.get("/api/cohorts", (req, res)=>{
-  res.json(cohorts)
-})
 
 // app.get("/api/students", (req, res)=>{
 //   res.json( students);
@@ -51,6 +59,9 @@ app.get("/api/cohorts", (req, res)=>{
 app.use("/api/cohorts", cohortRouter)
 
 app.use("/api/students", studentRouter)
+
+app.use("/users", userRouter)
+
 
 
 // START SERVER

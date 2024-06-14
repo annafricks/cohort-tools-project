@@ -24,6 +24,16 @@ router.get("/:cohortId", async(req,res)=>{
     }
 })
 
+router.get("/", async (req, res) => {
+    try {
+        const cohorts = await Cohorts.find()
+        res.json(cohorts)
+    } catch (error) {
+        console.log(error)
+        res.json(error)
+    }
+})
+
 router.put("/:cohortId", async (req,res)=>{
     try{
         const {cohortId}=req.params
