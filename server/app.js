@@ -15,7 +15,8 @@ const cohorts= require("./cohorts.json")
 const students= require("./students.json")
 const cohortRouter=require("./routes/cohorts.routes.js")
 const studentRouter=require("./routes/students.routes.js")
-const userRouter=require("./routes/auth.routes.js")
+const authRouter=require("./routes/auth.routes.js")
+const userRouter=require("./routes/users.routes.js")
 
 // INITIALIZE EXPRESS APP - https://expressjs.com/en/4x/api.html#express
 const app = express();
@@ -60,7 +61,11 @@ app.use("/api/cohorts", cohortRouter)
 
 app.use("/api/students", studentRouter)
 
-app.use("/users", userRouter)
+app.use("/auth", authRouter)
+
+app.use("/api/users", userRouter)
+
+
 
 
 

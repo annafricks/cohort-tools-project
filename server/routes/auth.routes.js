@@ -70,7 +70,7 @@ router.post("/login", async(req, res)=>{
         delete user._doc.password
 
         const authToken=jwt.sign({
-            payload:{user,customProp:"idk just testing"}},
+            payload:user},
             process.env.TOKEN_SIGN_SECRET,
             {
                 algorithm:"HS256",
