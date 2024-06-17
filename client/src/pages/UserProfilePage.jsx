@@ -16,6 +16,7 @@ function UserProfilePage() {
   const [errorMessage, setErrorMessage] = useState(undefined);
 
   useEffect(() => {
+    console.log(user);
     const getStudent = () => {
       const storedToken = localStorage.getItem("authToken");
 
@@ -23,7 +24,7 @@ function UserProfilePage() {
         axios
         .get(
           `${API_URL}/api/users/${user._id}`,
-          { headers: { Authorization: `Bearer ${storedToken}` }}
+          { headers: { authorization: `Bearer ${storedToken}` }}
           )
           .then((response) => {
             setUserProfile(response.data);
